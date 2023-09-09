@@ -1,0 +1,75 @@
+{% extends 'layout.html' %}
+{% block content %}
+{% include '_messages.html' %}
+
+<div class="container">
+    <div class="row">
+        <table class="table table-sm">
+            <thead>
+            <th>Sr</th>
+            <th>Photo</th>
+            <th>Name</th>
+            <th>Color</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Discount</th>
+            <th>Subtotal</th>
+            <th>Delete</th>
+            </thead>
+            <tbody>
+            {% for key, product in session['Shoppingcart'].items() %}
+            {% set discount =(product.discount/100) * product.price|float %}
+            <tr>
+                <td>{{loop.index}}</td>
+                <td><img src="{{url_for('static',filename='images/'+ product.image)}}" alt="{{product.name}}"
+                         height="45"></td>
+                <td>{{product.name}}</td>
+                <form action="" method="post">
+                    <td>{{product.colors}}</td>
+                    <td>{{product.price}}</td>
+                    <td>{{product.quantity}}</td>
+                    {% if product.discount > 0 %}
+                    <td>{{product.discount}}% &nbsp;({{discount}} PLN)</td>
+                    {% else %}
+                    <td></td>
+                    {% endif %}
+                    {% set subtotal = product.quantity|int * product.price|float %}
+                    <td>${{"%.2f"|format(subtotal - discount|round(1,'floor')) }}</td>
+                </form>
+                <td><a href="{{url_for('deleteitem', id=key)}}" class="btn-danger button2 btn btn-sm">Remove</a></td>
+            </tr>
+
+            {% endfor %}
+            <tr>
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<br>
+
+<!--wyświetlanie przycisków do nawigacji w koszyku-->
+<div class="a">
+    <h5> Total: {{total}} PLN </h5>
+    <h5><a href="{{url_for('get_order')}}" class="btn btn-success btn-sm mr-4"> Order now</a></h5>
+    <h5><a href="/" class="btn btn-info btn-sm mr-4" style="margin-top: -75px; margin-left: 100px">Continue shopping</a>
+    </h5>
+    <h5><a href="{{url_for('clear_cart')}}" class="btn btn-danger btn-sm mr-4" style="margin-top: -138px; margin-left: 255px">Clear cart</a>
+    </h5>
+</div>
+<style>
+div.a {
+    position: absolute;
+    right: 200px;
+}
+
+.button2 {
+    background-color: #F76A4C;
+    border: 0px
+}
+
+
+</style>
+{% endblock content %}

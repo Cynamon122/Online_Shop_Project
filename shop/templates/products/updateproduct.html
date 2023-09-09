@@ -1,0 +1,58 @@
+{% extends 'layout.html' %}
+{% block content %}
+{% include '_messages.html' %}
+<div class="container">
+   <div class="row">
+      <div class="col-md-2"></div>
+      <div class="com-md-8">
+         <h2 class="text-center">Update product</h2>
+         <!--        importujemy plik formhelpers za pomocą którego tworzymy pola dla nowego produktu:-->
+         {% from "_formhelpers.html" import render_field %}
+         <form action="" method="POST" enctype="multipart/form-data">
+            {{ render_field(form.name, class="form-control", placeholder="Product name" )}}
+            {{ render_field(form.price, class="form-control", placeholder="Price" )}}
+            {{ render_field(form.discount, class="form-control", placeholder="Discount" )}}
+            {{ render_field(form.stock, class="form-control", placeholder="Add stock" )}}
+            <label for="brand">Add a brand</label>
+            <!--            select do wybierania brand:-->
+            <select name="brand" id="brand" class="form-control">
+               <option value="{{updateproduct.brand_id}}">{{updateproduct.brand.name}}</option>
+               {% for brand in brands %}
+               <option value="{{brand.id}}"> {{brand.name}} </option>
+               {% endfor %}
+            </select>
+            <label for="category">Add a category</label>
+            <!--            select do wybierania category:-->
+            <select name="category" id="category" class="form-control" required>
+               <option value="{{updateproduct.category_id}}">{{updateproduct.category.name}}</option>
+               {% for category in categories %}
+               <option value="{{category.id}}"> {{category.name}} </option>
+               {% endfor %}
+            </select>
+            {{ render_field(form.colors, class="form-control", placeholder="Colors" )}}
+            {{ render_field(form.description, class="form-control", placeholder="Description",
+            rows="10" )}}
+            <!--        pola do importu zdjęć:    -->
+            <div class="container">
+               <div class="row">
+                  <div class="col-md-4">{{ render_field(form.image_1, class="form-control")}}</div>
+                  <div class="col-md-4">{{ render_field(form.image_2, class="form-control")}}</div>
+                  <div class="col-md-4">{{ render_field(form.image_3, class="form-control")}}</div>
+               </div>
+            </div>
+            <button type="submit" class="btn btn-info mt-4"> Update Product </button>
+
+         </form>
+
+         <a href="{{url_for('products')}}" class="btn btn-warning" style="margin-top: -65px; margin-left: 160px" >Cancel</a>
+
+
+      </div>
+
+      <div class="col-md-2"></div>
+   </div>
+</div>
+<br>
+
+
+{% endblock content %}

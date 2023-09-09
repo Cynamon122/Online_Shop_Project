@@ -1,0 +1,57 @@
+{% extends 'layout.html' %}
+{% block content %}
+{% include '_messages.html' %}
+
+<div class="container mt-5">
+    <table class="table table-sm table-condensed table-striped table-hover">
+        <thead>
+        <h5>Orders</h5>
+        </thead>
+        <thead>
+        <th>Sr</th>
+        <th>Invoice</th>
+        <th>Status</th>
+        <th>Date created</th>
+        <th>Ordered items</th>
+        <th>Customer Name</th>
+        <th>Customer Address</th>
+        <th>Contact</th>
+
+        </thead>
+        <tbody>
+        {% for order in orders %}
+        <tr>
+            <td>{{loop.id}}</td>
+            <td>{{order.invoice}}</td>
+            <td>{{order.status}}</td>
+            <td>{{ order.date_created.strftime('%Y-%m-%d %H:%M') }}</td>
+            <td>
+                <ul>
+                    {% for item_id, item_data in order.orders.items() %}
+                    <li>
+                        {{ item_data.name }}<br>
+                        quantity: {{ item_data.quantity }}<br>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </td>
+            <td>{{ order.customer.name }}</td>
+            <td>{{ order.customer.address }}
+                {{ order.customer.zipcode }}
+                {{ order.customer.city }}
+                {{ order.customer.country }}</td>
+            <td>{{ order.customer.email}}
+                {{ order.customer.contact }}
+            </td>
+
+
+
+
+            </tr>
+
+
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock content %}
